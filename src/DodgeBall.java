@@ -40,6 +40,12 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		addMouseListeners();
 	}
 	
+	private void moveAllEnemiesOnce() {
+	    for (GRect enemy : enemies) {
+	        enemy.move(0, rgen.nextInt(-2, 2));  // wiggle randomly up or down
+	    }
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		numTimes++;	// increment every tick
 		//spawn an enemy every 40 ticks
@@ -48,6 +54,7 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		}
 		
 		moveAllBallsOnce();
+		moveAllEnemiesOnce();	// Enemies move every tick
 	}
 	
 	public void mousePressed(MouseEvent e) {
