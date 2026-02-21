@@ -3,9 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.Timer;
-
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 import acm.graphics.GOval;
@@ -19,6 +17,7 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 	private GLabel text;
 	private Timer movement;
 	private RandomGenerator rgen;
+	private int numTimes;	// tracks timer ticks
 	
 	public static final int SIZE = 25;
 	public static final int SPEED = 2;
@@ -31,6 +30,7 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		rgen = RandomGenerator.getInstance();
 		balls = new ArrayList<GOval>();
 		enemies = new ArrayList<GRect>();
+		numTimes = 0;	// initialize counter
 		
 		text = new GLabel(""+enemies.size(), 0, WINDOW_HEIGHT);
 		add(text);
@@ -41,6 +41,12 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		numTimes++;	// increment every tick
+		//spawn an enemy every 40 ticks
+		if (numTimes % 40 == 0) {
+			addAnEnemy();
+		}
+		
 		moveAllBallsOnce();
 	}
 	
