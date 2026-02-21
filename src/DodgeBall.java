@@ -46,6 +46,25 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 	    }
 	}
 	
+	private void checkCollisions() {
+	    // Collect hit enemies first, never remove from a list while looping through it!
+	    ArrayList<GRect> toRemove = new ArrayList<GRect>();
+
+	    for (GOval ball : balls) {
+	        GObject hit = getElementAt(ball.getX() + SIZE, ball.getY() + SIZE/2);
+	        if (hit instanceof GRect) {
+	            toRemove.add((GRect) hit);
+	        }
+	    }
+
+	    // Now safely remove them
+	    for (GRect enemy : toRemove) {
+	        remove(enemy);
+	        enemies.remove(enemy);
+	        text.setLabel("" + enemies.size());
+	    }
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		numTimes++;	// increment every tick
 		//spawn an enemy every 40 ticks
@@ -55,6 +74,7 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		
 		moveAllBallsOnce();
 		moveAllEnemiesOnce();	// Enemies move every tick
+		checkCollisions(); 
 	}
 	
 	public void mousePressed(MouseEvent e) {
